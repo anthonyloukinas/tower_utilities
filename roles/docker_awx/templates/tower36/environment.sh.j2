@@ -1,0 +1,9 @@
+DATABASE_USER={{ awx_pg_username }}
+DATABASE_NAME={{ awx_pg_database }}
+DATABASE_HOST={{ awx_deployment_name }}_postgres
+DATABASE_PORT=5432
+DATABASE_PASSWORD={{ awx_pg_password }}
+MEMCACHED_HOST={{ awx_deployment_name }}_memcached
+RABBITMQ_HOST={{ awx_deployment_name }}_rabbitmq
+AWX_ADMIN_USER={{ awx_admin_username }}
+AWX_ADMIN_PASSWORD="{{ awx_admin_password }}"

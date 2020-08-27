@@ -1,0 +1,52 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@redhat.com>
+
+- hosts: localhost
+  gather_facts: no
+  
+  vars_prompt:
+
+    - name: awx_deployment_name
+      prompt: "AWX Deployment Name"
+      default: "default_awx"
+      private: no
+
+    - name: ldap_organization
+      prompt: "LDAP Organization"
+      default: Company
+      private: no
+
+    - name: ldap_domain
+      prompt: "LDAP Domain"
+      default: company.com
+      private: no
+    
+    - name: ldap_admin_password
+      prompt: "LDAP Admin Password?"
+      default: password
+      private: no
+
+    - name: ldap_insecure_port
+      prompt: "LDAP Port"
+      default: 389
+      private: no
+
+    - name: ldap_secure_port
+      prompt: "LDAPs Port"
+      default: 636
+      private: no
+
+    - name: ldap_php_admin_port
+      prompt: "PHPLdapAdmin Port (Web Interface to LDAP)"
+      default: 8443
+      private: no
+
+    - name: ldap_expose
+      prompt: "Expose LDAP to your machines host network?"
+      default: yes
+      private: no
+
+  tasks:
+
+    - include_role:
+        name: docker_ldap

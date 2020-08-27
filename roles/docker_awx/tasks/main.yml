@@ -1,0 +1,10 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@redhat.com>
+
+# - include_tasks: 10_authenticate_registry.yml
+
+- include_tasks: 20_setup_tower36.yml
+
+# - include_tasks: 21_setup_tower37.yml
+
+# - include_tasks: 22_setup_awx13.yml

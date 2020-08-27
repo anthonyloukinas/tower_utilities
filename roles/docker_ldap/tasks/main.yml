@@ -1,0 +1,57 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@redhat.com>
+
+### Pull docker containers
+- name: Pull LDAP Images
+  docker_image:
+    name: "{{ item }}"
+    docker_host: unix://var/run/docker.sock
+    tag: latest
+    pull: true
+    debug: false
+    state: present
+  loop:
+    - osixia/openldap:latest
+    - osixia/phpldapadmin:latest
+
+
+### Build docker containers
+- name: Create LDAP container
+  docker_container:
+    name: "{{ awx_deployment_name }}_ldap"
+    image: osixia/openldap:latest
+    hostname: "{{ awx_deployment_name }}_ldap"
+    networks:
+      - name: "{{ awx_deployment_name }}_tower_net"
+        aliases: "ldap"
+    ports:
+      - "{{ ldap_insecure_port }}:389"
+      - "{{ ldap_secure_port }}:636"
+    env:
+      LDAP_ORGANISATION: "{{ ldap_organization }}"
+      LDAP_DOMAIN: "{{ ldap_domain }}"
+      LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password }}"
+
+
+- name: Create PhpLdapAdmin container
+  docker_container:
+    name: "{{ awx_deployment_name }}_ldap_admin"
+    image: osixia/phpldapadmin:latest
+    hostname: "{{ awx_deployment_name }}_ldap_admin"
+    networks:
+      - name: "{{ awx_deployment_name }}_tower_net"
+    ports:
+      - "{{ ldap_php_admin_port }}:443"
+    env:
+      PHPLDAPADMIN_LDAP_HOSTS: "{{ awx_deployment_name }}_ldap"
+
+
+### Post configure LDAP
+# - name: 
+#   ldap_entry:
+#     dn: ou=users,dc=company,dc=com
+#     objectClass: organizationalUnit
+#     state: present
+#     server_uri: "ldap://{{ tower_env }}_ldap/"
+#     bind_dn: cn=admin,dc=example,dc=com
+#     bind_pw: password

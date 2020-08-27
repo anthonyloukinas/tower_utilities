@@ -1,0 +1,21 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@redhat.com>
+
+- name: Assert registry username is specified
+  assert:
+    that:
+      - rh_registry_username is defined
+    fail_msg: "rh_registry_username must be defined"
+
+- name: Assert registry password is specified
+  assert:
+    that:
+      - rh_registry_password is defined
+    fail_msg: "rh_registry_password must be defined"
+
+- name: Login to Red Hat registry
+  docker_login:
+    registry: "https://registry.redhat.io"
+    username: "{{ rh_registry_username }}"
+    password: "{{ rh_registry_password }}"
+    state: present

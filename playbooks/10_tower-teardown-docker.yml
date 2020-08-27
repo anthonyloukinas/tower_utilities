@@ -1,0 +1,24 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@gmail.com>
+
+- hosts: localhost
+  gather_facts: no
+  
+  vars_prompt:
+
+    - name: awx_deployment_name
+      prompt: "AWX Deployment Name"
+      default: "default_awx"
+      private: no
+
+  tasks:
+
+    - docker_container:
+        name: "{{ awx_deployment_name}}_{{ item }}"
+        state: absent
+      loop:
+        - "memcached"
+        - "rabbitmq"
+        - "postgres"
+        - "tower_task"
+        - "tower_web"

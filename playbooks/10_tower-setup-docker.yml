@@ -1,0 +1,71 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@gmail.com>
+
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    # Ask user which version of AWX to install
+    - name: awx_variant
+      prompt: "Which software would you like to deploy?\n1- AWX (open-source)\n2- Tower 3.6 (Enterprise)\n3- Tower 3.7 (Enterprise)"
+      private: no
+      default: 2
+
+    - name: awx_deployment_name
+      prompt: "What would you like to name your deployment?"
+      private: no
+      default: default_awx
+
+    - name: awx_admin_username
+      prompt: "AWX Admin Username?"
+      default: admin
+      private: no
+
+    - name: awx_admin_password
+      prompt: "AWX Admin Password?"
+      default: password
+      private: no
+
+    - name: awx_http_port
+      prompt: "What HTTP port should AWX listen on?"
+      default: 80
+      private: no
+
+    - name: awx_https_port
+      prompt: "What HTTPs port should AWX listen on?"
+      default: 443
+      private: no
+
+    - name: awx_secret_key
+      prompt: "AWX secret key?"
+      default: aabbcc 
+      private: no
+    
+    - name: awx_pg_username
+      prompt: "AWX Postgres Database Username?"
+      default: awx
+      private: no
+
+    - name: awx_pg_password
+      prompt: "AWX Postgres Database Password?"
+      default: postgres
+      private: no
+
+    - name: awx_pg_database
+      prompt: "AWX Postgres Database Name?"
+      default: awx
+      private: no
+
+    - name: awx_rabbitmq_username
+      prompt: "AWX RabbitMQ Username?"
+      default: awx
+      private: no
+
+    - name: awx_rabbitmq_password
+      prompt: "AWX RabbitMQ Password?"
+      default: awx
+      private: no
+
+  tasks:
+
+    - include_role:
+        name: docker_awx

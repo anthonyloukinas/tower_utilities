@@ -1,0 +1,17 @@
+---
+# @author Anthony Loukinas <anthony.loukinas@redhat.com>
+
+version: '3'
+
+services:
+  {% if (awx_aux_ldap_enabled == '1') %}
+  ldap:
+    image: osixia/openldap:latest
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      LDAP_ORGANISATION: "Example"
+      LDAP_DOMAIN: "example.com"
+      LDAP_ADMIN_PASSWORD: "changeme!"
+  {% endif %}
